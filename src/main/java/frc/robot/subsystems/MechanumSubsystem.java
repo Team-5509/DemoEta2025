@@ -6,10 +6,25 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkClosedLoopController;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
-public class ExampleSubsystem extends SubsystemBase {
+
+
+public class MechanumSubsystem extends SubsystemBase {
+  private SparkMax frontLeftMotor = new SparkMax(6, MotorType.kBrushless);
+  private SparkMax frontRightMotor= new SparkMax(1, MotorType.kBrushless);
+  private SparkMax backLeftMotor = new SparkMax(8, MotorType.kBrushless);
+  private SparkMax backRightMotor = new SparkMax(13, MotorType.kBrushless);
+  private MecanumDrive mecanumDrive;
   /** Creates a new ExampleSubsystem. */
-  public ExampleSubsystem() {}
+  public MechanumSubsystem() {
+    mecanumDrive = new MecanumDrive(frontLeftMotor, backLeftMotor, backRightMotor,backRightMotor);
+
+  }
 
   /**
    * Example command factory method.
@@ -44,4 +59,8 @@ public class ExampleSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
+  public void drive(double x,double y,double rotation){
+    mecanumDrive.driveCartesian(y, x, rotation);
+}
 }

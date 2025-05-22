@@ -4,20 +4,21 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.MechanumSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ExampleCommand extends Command {
+public class DriveCommand extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
+  private final MechanumSubsystem m_subsystem;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
+  public DriveCommand(MechanumSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -25,7 +26,23 @@ public class ExampleCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    double y = (-1)*RobotContainer.getInstance().getDriverController().getLeftY();
+    double x = (-1)*RobotContainer.getInstance().getDriverController().getLeftX();
+    double rotation = (-1)*RobotContainer.getInstance().getDriverController().getRightX();
+    double finnese = 1;
+    double delinerization = 3;
+    double deadband = .2;
+    if (y < deadband){
+      y = 0;
+    }
+    if (x < deadband){
+      x = 0;
+    }
+    if (rotation < deadband){
+      rotation = 0;
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
